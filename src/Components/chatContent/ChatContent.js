@@ -58,34 +58,41 @@ function ChatContent(props) {
               },
         ];
 
-   const [chatState, setChatState] = useState({
-    chat: chatItms,
-    msg: "",
-   })
+  //  const [chatState, setChatState] = useState({
+  //   chat:chatItms,
+  //   msg: "",
+  //  })
+
+  const [chat,setChat]=useState(chatItms);
+  const [msg,setMsg]=useState("");
 
     const inputEvent=(event)=>{
-   setChatState({msg:event.target.value});
-   console.log(chatState.msg)
+   //setChatState({msg:event.target.value});
+   setMsg(event.target.value);
+   console.log(msg);
+   console.log(chat);
+  // console.log(chatState.msg)
     };
   const  scrollToBottom = () => {
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
       };
     
     useEffect(()=>{
-        window.addEventListener("keydown", (event) => {
-         
-            if(KeyboardEvent.key == 13){
-              if (chatState.msg != "") {
+        window.addEventListener("keydown", (e) => {
+            
+          //when we press enter
+            if(e.keyCode == 13){
+              if (msg != "") {
                 chatItms.push({
                   key: 1,
                   type: "",
-                  msg: chatState.msg,
-                  image:
-                    "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
+                  msg: msg,
+                  image:"https://avatars.githubusercontent.com/u/70794984?s=460&u=5494bcd764543c41e52a2cd68973be47b31cb332&v=4",
                 });
-                chatState({ chat: [...chatItms] });
+                setChat([...chatItms]);
+              //  setChatState({ chat: [...chatItms] }); //Automatically update chat
                 scrollToBottom();
-             chatItms({ msg: "" });
+            setMsg( "" );
               }
             }
           });
@@ -107,6 +114,7 @@ function ChatContent(props) {
           <div className="blocks">
             <div className="settings">
               <Button className="btn-nobg">
+           
                 <i className="fa fa-cog"></i>
               </Button>
             </div>
@@ -114,7 +122,7 @@ function ChatContent(props) {
         </div>
         <div className="content__body">
           <div className="chat__items">
-            {chatState.chat.map((itm, index) => {
+            {chat.map((itm, index) => {
               return (
                 <ChatItems
                   animationDelay={index + 2}
@@ -137,7 +145,7 @@ function ChatContent(props) {
               type="text"
               placeholder="Type a message here"
               onChange={inputEvent}
-              value={chatState.msg}
+              value={msg}
             />
             <button className="btnSendMsg" id="sendMsgBtn">
               <i className="fa fa-paper-plane"></i>
