@@ -12,6 +12,10 @@
   display: flex;
   align-items: center;
 }
+.settings{
+  display:flex;
+  justify-content:flex-end;
+}
 .current-chatting-user p {
   margin: 0;
   font-weight: 600;
@@ -133,7 +137,7 @@
 .sendNewMessage button i {
   display: block;
 }
-.sendNewMessage input {
+.sendNewMessage textarea{
   flex-grow: 1;
   padding: 0 15px;
   background-color: transparent;

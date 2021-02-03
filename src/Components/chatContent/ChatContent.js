@@ -3,6 +3,8 @@ import React,{useState,useRef,useEffect} from 'react';
 import { Col, Container, Row,Button } from 'react-bootstrap';
 import ChatItems from './ChatItems';
 import "./ChatContent.css";
+import TextField from '@material-ui/core/TextField';
+
 // import Avatar from "../chatList/Avatar";
 function ChatContent(props) {
  const messagesEndRef =useRef(null);
@@ -64,17 +66,21 @@ function ChatContent(props) {
   //  })
 
   const [chat,setChat]=useState(chatItms);
-  const [msg,setMsg]=useState("");
+  const [msgs,setMsgs]=useState("");
 
     const inputEvent=(event)=>{
    //setChatState({msg:event.target.value});
-   setMsg(event.target.value);
-   console.log(msg);
+   setMsgs(event.target.value);
+   console.log(msgs);
    console.log(chat);
   // console.log(chatState.msg)
     };
   const  scrollToBottom = () => {
-        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        // messagesEndRef.current.scrollIntoView({ behavior: "smooth",
+        
+        // });
+      //  messagesEndRef.current.scrollTop(0,document.body.scrollHeight);
+      messagesEndRef.current.scrollTo(0,document.body.scrollHeight);
       };
     
     useEffect(()=>{
@@ -82,17 +88,17 @@ function ChatContent(props) {
             
           //when we press enter
             if(e.keyCode == 13){
-              if (msg != "") {
+              if (msgs != "") {
                 chatItms.push({
                   key: 1,
                   type: "",
-                  msg: msg,
+                  msg: msgs,
                   image:"https://avatars.githubusercontent.com/u/70794984?s=460&u=5494bcd764543c41e52a2cd68973be47b31cb332&v=4",
                 });
                 setChat([...chatItms]);
               //  setChatState({ chat: [...chatItms] }); //Automatically update chat
                 scrollToBottom();
-            setMsg( "" );
+            setMsgs( "" );
               }
             }
           });
@@ -100,28 +106,28 @@ function ChatContent(props) {
     // console.log(chatItms.msg)
     return (
       <>
-       <div className="main__chatcontent">
-        <div className="content__header">
-          <div className="blocks">
-            <div className="current-chatting-user">
+       <div className="main__chatcontent container">
+        <div className="content__header row  ">
+          {/* <div className="blocks col-md-6 "> */}
+            <div className="current-chatting-user col ">
               <Avatar
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
               />
               <p>John Doe</p>
             </div>
-          </div>
+          {/* </div> */}
 
-          <div className="blocks">
-            <div className="settings">
+          {/* <div className="blocks col-md-6 justify-content-end"> */}
+            <div className="settings   col ">
               <Button className="btn-nobg">
            
                 <i className="fa fa-cog"></i>
               </Button>
-            </div>
+            {/* </div> */}
           </div>
         </div>
-        <div className="content__body">
-          <div className="chat__items">
+        <div className="content__body row">
+          <div className="chat__items col-sm-12">
             {chat.map((itm, index) => {
               return (
                 <ChatItems
@@ -141,11 +147,14 @@ function ChatContent(props) {
             <button className="addFiles">
               <i className="fa fa-plus"></i>
             </button>
-            <input
+            <textarea
               type="text"
               placeholder="Type a message here"
-              onChange={inputEvent}
-              value={msg}
+              //variant="outlined"
+              //rowsMax={4}
+              rows="4" cols="15"
+             onChange={inputEvent}
+              value={msgs}
             />
             <button className="btnSendMsg" id="sendMsgBtn">
               <i className="fa fa-paper-plane"></i>
