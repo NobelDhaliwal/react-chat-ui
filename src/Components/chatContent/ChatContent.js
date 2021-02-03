@@ -4,7 +4,8 @@ import { Col, Container, Row,Button } from 'react-bootstrap';
 import ChatItems from './ChatItems';
 import "./ChatContent.css";
 import TextField from '@material-ui/core/TextField';
-
+ import ScrollableFeed from "react-scrollable-feed";
+// import ScrollToBottom from "react-scroll-to-bottom";
 // import Avatar from "../chatList/Avatar";
 function ChatContent(props) {
  const messagesEndRef =useRef(null);
@@ -76,16 +77,19 @@ function ChatContent(props) {
   // console.log(chatState.msg)
     };
   const  scrollToBottom = () => {
-        // messagesEndRef.current.scrollIntoView({ behavior: "smooth",
-        
-        // });
-      //  messagesEndRef.current.scrollTop(0,document.body.scrollHeight);
-      messagesEndRef.current.scrollTo(0,document.body.scrollHeight);
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth",
+        block:"end",
+        inline:"end"
+        });
+     
+    window.scrollTo({top:document.documentElement.scrollHeight,
+      behavior:"smooth"});
       };
     
     useEffect(()=>{
+     
         window.addEventListener("keydown", (e) => {
-            
+          
           //when we press enter
             if(e.keyCode == 13){
               if (msgs != "") {
@@ -97,7 +101,7 @@ function ChatContent(props) {
                 });
                 setChat([...chatItms]);
               //  setChatState({ chat: [...chatItms] }); //Automatically update chat
-                scrollToBottom();
+               scrollToBottom();
             setMsgs( "" );
               }
             }
@@ -128,8 +132,11 @@ function ChatContent(props) {
         </div>
         <div className="content__body row">
           <div className="chat__items col-sm-12">
+          {/* <ScrollableFeed > */}
             {chat.map((itm, index) => {
+             
               return (
+                
                 <ChatItems
                   animationDelay={index + 2}
                   key={itm.key}
@@ -137,9 +144,13 @@ function ChatContent(props) {
                   msg={itm.msg}
                   image={itm.image}
                 />
+             
               );
+          
             })}
+            {/* </ScrollableFeed> */}
             <div ref={messagesEndRef}/>
+        
           </div>
         </div>
         <div className="content__footer">
